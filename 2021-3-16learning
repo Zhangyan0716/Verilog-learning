@@ -1,0 +1,17 @@
+//关于HDL Bits题目练习
+//设计一个电路，根据需要打开或者关闭空调和风扇
+//代码如下
+module top_module (
+    input too_cold,
+    input too_hot,
+    input mode,
+    input fan_on,
+    output heater,
+    output aircon,
+    output fan
+); 
+    assign heater = too_cold & mode;
+    assign aircon = too_hot & (~mode);
+    assign fan = (mode & too_cold) | ((~mode) & too_hot) | fan_on;
+    
+endmodule
