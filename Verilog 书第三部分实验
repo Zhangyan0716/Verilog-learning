@@ -1,0 +1,50 @@
+//练习一简单的组合逻辑设计
+//一个可综合的数据比较器：比较a,b；相同为一否则为0
+//模块源代码 compare.v
+
+module compare(
+input a,
+input b,
+output out
+);
+
+assign out = (a == b) ? 1 : 0 ;
+//第二种方式，使用always块，就需要把out变量申明为reg型
+//reg out;
+//always @ (*)
+//if(a==b)
+//out = 1;
+//else
+//out = 0;
+
+endmodule
+
+
+//测试模块
+
+`timescale 1ns/0.1ns//时间申明
+
+module tb_compare;//模块开始
+
+reg a1,b1;
+reg clk;
+wire out1;//端口变量申明；输入和clk信号为reg型，输出需要wire型
+
+initial 
+begin
+a1 = 0;
+b1 = 0;
+clk = 0;
+end//变量初始化
+
+always #50 clk = ~clk;//时钟信号的产生
+
+always @ (posedge clk)
+begin
+a1 = {$random} % 2;
+b1 = {$random} % 2;
+end//测试信号的随机数产生
+
+compare  com(.a(a1),.b(b1),.out(out1));//施例化引用原设计模块
+
+endmodule
