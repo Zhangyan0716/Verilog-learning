@@ -1,0 +1,21 @@
+module B_to_G（B,G）；
+
+Parameter length = 4;
+
+input [length-1:0] B;
+output [length-1:0] G;
+
+reg [length-1:0] G;
+
+integer i ;
+
+always @ (*)
+ G[n-1] = B[n-1] ;
+begin
+ for(i = 0;i < length -2;i++)
+ begin
+ G[i] = B[i] ^ B[i+1];
+ end
+end
+
+endmodule
