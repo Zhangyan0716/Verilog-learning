@@ -17,5 +17,30 @@ begin
  G[i] = B[i] ^ B[i+1];
  end
 end
+//或者assign 语句
+//assign G = (B >>1) ^ B;
+endmodule
+
+
+
+//G TO B
+module G_to_B(G,B);
+
+input [length-1:0] G;
+output [length-1:0] B;
+
+reg [length-1:0] B;
+
+integer i ;
+
+always @ (*)
+begin
+ B[length-1] = G [length-1] ;
+ for(i=length-2;i>=0;i--)
+ begin
+  B[i] = G[i] ^ B[i+1];
+ end
+end
 
 endmodule
+
