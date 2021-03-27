@@ -1,0 +1,71 @@
+//阻塞与非阻塞
+module blocking(
+input wire [3:0] a,
+input wire clk,
+output reg [3:0] b,
+output reg [3:0] c 
+);
+
+always @(posedge clk)
+begin
+b = a ;
+c = b ;
+$display("blocking:a = %d, b = %d, c = %d.",a,b,c);
+end 
+
+endmodule
+
+module non_blocking(
+input wire [3:0] a,
+input wire clk,
+output reg [3:0] b,
+output reg [3:0] c
+);
+
+always @ (posedge clk)
+begin
+b <= a;
+c <= b;
+$display("non_blocking:a = %d, b = %d, c = %d.",a,b,c);
+end 
+
+endmodule 
+
+
+//testbench
+`timescale 1ns/100ps
+//`include "./blocking.v"
+//`include "./non_blocking.v"
+
+module compareTop;
+
+reg [3:0] a1;
+reg clk1;
+wire [3:0] b1,c1,b2,c2;
+
+initial
+begin
+clk1 = 0;
+forever #50 clk1 = ~clk1;
+end
+
+initial
+begin 
+ a1 = 4'h3;
+ $display("______");
+ #100 a1 = 4'h7;
+ $display("______");
+ #100 a1 = 4'hf;
+ $display("______");
+  #100 a1 = 4'ha;
+ $display("______");
+  #100 a1 = 4'h2;
+ $display("______");
+ #100 $display("______");
+ $stop;
+end 
+
+non_blocking non_blocking(.a(a1),.clk(clk1),.b(b2),.c(c2));
+blocking blocking(.a(a1),.clk(clk1),.b(b1),.c(c1));
+
+endmodule
